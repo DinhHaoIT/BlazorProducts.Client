@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<Home Title="Hello Hảo đẹp trai" @attributes="AdditionalAttributes">
+hihi
+</Home>
+@code{
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new Dictionary<string, object>
+    {
+        { "src", "/assets/products.jpg" },
+        { "alt", "products image for the Home component" }
+    };
+}
+
