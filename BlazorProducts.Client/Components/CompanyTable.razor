@@ -1,0 +1,46 @@
+﻿@if (Companies.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Country</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Companies)
+            {
+                <tr>
+                    <td>
+                        @*<img src="@product.ImageUrl" alt="product image" style="width:100px;" />*@
+                    </td>
+                    <td class="align-middle">
+                        @product.Name
+                    </td>
+                    <td class="align-middle">
+                        @product.Address
+                    </td>
+                    <td class="align-middle">
+                        @product.Country
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-info">Update</button>
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+             }
+            </tbody>
+    </table>
+}
+else
+{
+    <span>
+        Loading products...
+    </span>
+}
