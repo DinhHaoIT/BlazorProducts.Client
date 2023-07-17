@@ -1,4 +1,6 @@
-﻿using BlazorProducts.Client.Models;
+﻿using BlazorProducts.Client.Features;
+using BlazorProducts.Client.Models;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Json;
 
 namespace BlazorProducts.Client.HttpRepository
@@ -22,6 +24,26 @@ namespace BlazorProducts.Client.HttpRepository
             }
             var companies = JsonSerializer.Deserialize<List<Company>>(content, _options);
             return companies;
+        }
+
+        public async Task<PagingResponse<Company>> GetCompanies(CompanyParameters companyParameters)
+        {
+            var queryStringParam = new Dictionary<string, string>
+            {
+                ["pageNumber"] = companyParameters.PageNumber.ToString()
+            };
+            var response = await _client.GetAsync(QueryHelpers.AddQueryString("Companies", queryStringParam));
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+            var pagingResponse = new PagingResponse<Company>
+            {
+                Items = JsonSerializer.Deserialize<List<Company>>(content, _options),
+                MetaData = JsonSerializer.Deserialize<MetaData>(response.Headers.GetValues("X-Pagination").First(), _options)
+            };
+            return pagingResponse;
         }
     }
 }
