@@ -13,6 +13,15 @@ namespace BlazorProducts.Client.Pages
         public ICompanyHttpRepository CompanyRepo { get; set; }
         protected async override Task OnInitializedAsync()
         {
+            await GetCompanies();
+        }
+        private async Task SelectedPage(int page)
+        {
+            _companyParameters.PageNumber = page;
+            await GetCompanies();
+        }
+        private async Task GetCompanies()
+        {
             var pagingResponse = await CompanyRepo.GetCompanies(_companyParameters);
             CompanyList = pagingResponse.Items;
             MetaData = pagingResponse.MetaData;
